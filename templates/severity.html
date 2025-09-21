@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumonia Severity Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            text-align: left;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin-top: 20px;
+            height: 25px;
+            position: relative;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: green;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out, background-color 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <h2>Pneumonia Severity Checker</h2>
+    <div class="container">
+        <p>Select symptoms:</p>
+        <form id="symptom-form">
+            <label><input type="checkbox" class="symptom" data-weight="2"> Cough</label><br>
+            <label><input type="checkbox" class="symptom" data-weight="3"> Fever</label><br>
+            <label><input type="checkbox" class="symptom" data-weight="5"> Difficulty Breathing</label><br>
+            <label><input type="checkbox" class="symptom" data-weight="4"> Chest Pain</label><br>
+            <label><input type="checkbox" class="symptom" data-weight="2"> Fatigue</label><br>
+            <label><input type="checkbox" class="symptom" data-weight="1"> Loss of Appetite</label><br>
+        </form>
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <p id="severity-text">Severity: Mild</p>
+    </div>
+    <script>
+        document.querySelectorAll('.symptom').forEach(symptom => {
+            symptom.addEventListener('change', updateSeverity);
+        });
+        
+        function updateSeverity() {
+            const symptoms = document.querySelectorAll('.symptom');
+            let totalScore = 0, maxScore = 15;
+            
+            symptoms.forEach(symptom => {
+                if (symptom.checked) {
+                    totalScore += parseInt(symptom.getAttribute('data-weight'));
+                }
+            });
+            
+            const percentage = (totalScore / maxScore) * 100;
+            const progressBar = document.getElementById('progress-bar');
+            const severityText = document.getElementById('severity-text');
+            progressBar.style.width = percentage + '%';
+            
+            if (percentage <= 33) {
+                progressBar.style.backgroundColor = 'green';
+                severityText.textContent = 'Severity: Mild';
+            } else if (percentage <= 66) {
+                progressBar.style.backgroundColor = 'yellow';
+                severityText.textContent = 'Severity: Moderate';
+            } else {
+                progressBar.style.backgroundColor = 'red';
+                severityText.textContent = 'Severity: Severe';
+            }
+        }
+    </script>
+</body>
+</html>
