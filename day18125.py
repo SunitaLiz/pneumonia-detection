@@ -46,7 +46,7 @@ def main():
 
 @app.route('/upload')
 def upload():
-    return render_template('uploaaad.html')  # Render the upload page
+    return render_template('upload.html')  # Render the upload page
 
 @app.route('/predict', methods=['POST'])
 def predict():
